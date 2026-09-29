@@ -7,6 +7,7 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from sqlalchemy import select
+from sqlalchemy.orm import Session
 
 from inventory_event_platform.config import Settings
 from inventory_event_platform.database import (
@@ -80,7 +81,9 @@ class InventoryService:
                 restore_id=detail.get("restore_id"),
             )
 
-    def _current_projection(self, session, container_id: str) -> ContainerProjection:
+    def _current_projection(
+        self, session: Session, container_id: str
+    ) -> ContainerProjection:
         row = session.get(ContainerProjection, container_id)
         if row is None:
             raise NotFoundError(f"Container {container_id} was not found.")
@@ -95,7 +98,7 @@ class InventoryService:
 
     def _append_event(
         self,
-        session,
+        session: Session,
         command_id: str,
         event_type: EventType,
         before: ContainerState | None,
@@ -105,11 +108,16 @@ class InventoryService:
         event_id = str(uuid.uuid4())
         occurred_at = _now()
         version = 1 if before is None else before.version + 1
+
+        quantity_value = after_values["quantity"]
+        if not isinstance(quantity_value, int) or isinstance(quantity_value, bool):
+            raise ValidationError("Event quantity must be an integer.")
+
         after = ContainerState(
             container_id=str(after_values["container_id"]),
             sku=str(after_values["sku"]),
             location=str(after_values["location"]),
-            quantity=int(after_values["quantity"]),
+            quantity=quantity_value,
             status=ContainerStatus(str(after_values["status"])),
             version=version,
             last_event_id=event_id,
@@ -170,7 +178,7 @@ class InventoryService:
 
     def _record_audit(
         self,
-        session,
+        session: Session,
         command_id: str,
         command_type: str,
         stream_id: str,
