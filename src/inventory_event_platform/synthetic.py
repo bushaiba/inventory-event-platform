@@ -10,7 +10,6 @@ from inventory_event_platform.models import (
 )
 from inventory_event_platform.service import InventoryService, _now
 
-
 SKUS = tuple(f"SKU-{index:03d}" for index in range(1, 11))
 LOCATIONS = tuple(f"LOC-{index:02d}" for index in range(1, 13))
 

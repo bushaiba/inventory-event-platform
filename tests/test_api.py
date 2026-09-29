@@ -2,6 +2,7 @@ from fastapi.testclient import TestClient
 
 from inventory_event_platform.api.main import create_app
 
+
 def test_api_create_lookup_and_conflict(settings):
     app = create_app(settings)
     with TestClient(app) as client:
