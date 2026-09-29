@@ -1,0 +1,16 @@
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.pyc
+.env
+*.db
+*.sqlite
+*.sqlite3
+data/
+.DS_Store
+infrastructure/aws/*.zip

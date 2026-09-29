@@ -1,0 +1,23 @@
+{
+  "create": {
+    "container_id": "CNT-9001",
+    "sku": "SKU-014",
+    "location": "LOC-03",
+    "quantity": 18,
+    "idempotency_key": "example-create-9001"
+  },
+  "move": {
+    "container_id": "CNT-9001",
+    "to_location": "LOC-08",
+    "expected_version": 1,
+    "idempotency_key": "example-move-9001",
+    "restore_after_seconds": 900
+  },
+  "adjust": {
+    "container_id": "CNT-9001",
+    "delta": -2,
+    "expected_version": 2,
+    "reason": "cycle count correction",
+    "idempotency_key": "example-adjust-9001"
+  }
+}

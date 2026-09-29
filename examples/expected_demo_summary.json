@@ -1,0 +1,10 @@
+{
+  "created": 40,
+  "moved": 20,
+  "adjusted": 13,
+  "temporary_moves": 4,
+  "restores_completed": 3,
+  "restore_conflicts": 1,
+  "outbox_published": 76,
+  "reconciliation_drift": 0
+}
